@@ -12,10 +12,10 @@ const hasOnlyNumbers = (array) => {
   return true; 
 };
 
-const sumPair = (numbers, total) => {
+const sumPair = (numbers, k) => {
   for (let i = 0; i < numbers.length; i++) {
     for (let j = i + 1; j < numbers.length; j++) {
-      if (numbers[i] + numbers[j] === total) return true;
+      if (numbers[i] + numbers[j] === k) return true;
     }
   }
   return false;
