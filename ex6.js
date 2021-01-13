@@ -13,11 +13,11 @@ const hasOnlyNumbers = (array) => {
 };
 
 const westView = (numbers) => {
-  let toCheck = [...numbers];
+  let numbersToCheck = [...numbers];
   let hasView = [];
   
-  for (let i = toCheck.length - 1; i >= 0; i--) {
-    if (toCheck[i] > Math.max(...hasView)) hasView.push(toCheck[i]);
+  for (let i = numbersToCheck.length - 1; i >= 0; i--) {
+    if (numbersToCheck[i] > Math.max(...hasView)) hasView.push(numbersToCheck[i]);
   }
 
   return hasView.length;
