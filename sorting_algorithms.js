@@ -2,11 +2,19 @@ const fs = require('fs');
 
 const fileName = process.argv[2];
 
+/*****************************
+ * VERIFY THE DATA
+ * ***************************/
+
 const hasOnlyNumbers = (array) => {
   const notNumbers = array.filter((element) => !Number.isInteger(element));
   if (notNumbers.length >= 1) return false;
   return true; 
 };
+
+/*****************************
+ * SWAP ELEMENT OF AN ARRAY
+ * ***************************/
 
 const swap = (items, leftIndex, rightIndex) => {
   var temp = items[leftIndex];
@@ -14,6 +22,9 @@ const swap = (items, leftIndex, rightIndex) => {
   items[rightIndex] = temp;
 }
 
+/*****************************
+ * BUBBLE SORT
+ * ***************************/
 const bubbleSort = (numbers) => {
   let sortedNumbers = [...numbers];
   let comparisonCount = 0;
@@ -29,9 +40,13 @@ const bubbleSort = (numbers) => {
     }
     if (!swapped) break;
   }
-  console.log(`Tri à bulle: ${comparisonCount} comparaisons - [${sortedNumbers}]`);
+  console.log(`Tri à bulle: ${comparisonCount} comparaisons - [${sortedNumbers}] \n`);
   return sortedNumbers;
 }
+
+/*****************************
+ * INSERTION SORT
+ * ***************************/
 
 const insertionSort = (numbers) => {
   let sortedNumbers = [...numbers];
@@ -46,9 +61,14 @@ const insertionSort = (numbers) => {
     }
     sortedNumbers[j] = valueToCompare;
   }
-  console.log(`Tri par insertion: ${comparisonCount} comparaisons - [${sortedNumbers}]`);
+  console.log(`Tri par insertion: ${comparisonCount} comparaisons - [${sortedNumbers}] \n`);
   return sortedNumbers;
 };
+
+
+/*****************************
+ * SELECTION SORT
+ * ***************************/
 
 const selectionSort = (numbers) => {
   let sortedNumbers = [...numbers];
@@ -63,10 +83,14 @@ const selectionSort = (numbers) => {
       swap(sortedNumbers, i, minIndex);
     }
   }
-  console.log(`Tri par sélection: ${comparisonCount} comparaisons - [${sortedNumbers}]`);
+  console.log(`Tri par sélection: ${comparisonCount} comparaisons - [${sortedNumbers}] \n`);
   return sortedNumbers;
 };
 
+
+/*****************************
+ * QUICK SORT
+ * ***************************/
 // Can be optimized
 class QuickSort {
 
@@ -100,7 +124,7 @@ class QuickSort {
   }
 
   display() {
-    console.log(`Tri rapide: ${this.comparisonCount} comparaisons - [${this.array}]`);
+    console.log(`Tri rapide: ${this.comparisonCount} comparaisons - [${this.array}] \n`);
   }
 
   perform() {
@@ -108,6 +132,41 @@ class QuickSort {
     this.display();
   }
 };
+
+/*****************************
+ * MERGE SORT
+ * ***************************/
+var mergeComparisonCount = 0;
+
+const mergeSort = (numbers) => {
+  if (numbers.length <= 1) return numbers;
+
+  const middle = Math.floor(numbers.length / 2);
+
+  const left = numbers.slice(0, middle);
+  const right = numbers.slice(middle);
+
+  return merge(mergeSort(left), mergeSort(right));
+}
+
+const merge = (left, right) => {
+  let resultArray = [];
+  let leftIndex = 0;
+  let rightIndex = 0;
+
+  while (leftIndex < left.length && rightIndex < right.length) {
+    mergeComparisonCount ++;
+    if (left[leftIndex] < right[rightIndex]) {
+      resultArray.push(left[leftIndex]);
+      leftIndex ++;
+    } else {
+      resultArray.push(right[rightIndex]);
+      rightIndex++;
+    }
+  }
+
+  return resultArray.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+}
 
 
 // Méthode asynchrone
@@ -119,6 +178,12 @@ class QuickSort {
 //   console.log(data);
 // });
 
+
+
+/*****************************
+ * LAUNCH AND TEST THE ALGORITHMS
+ * ***************************/
+
 // Méthode synchrone
 try {
   const data = fs.readFileSync(fileName, 'utf8');
@@ -126,6 +191,7 @@ try {
   if (!hasOnlyNumbers(numbers)) return console.error("The data is not valid!");
 
   console.log('====================================');
+  console.log('BEGIN');
   console.log(numbers);
   console.log('====================================\n');
 
@@ -134,9 +200,12 @@ try {
   selectionSort(numbers);
   const quickSortedNumbers = new QuickSort(numbers);
   quickSortedNumbers.perform();
+  const mergeSortedNumbers = [...numbers];
+  mergeSort(mergeSortedNumbers);
+  console.log(`Tri fusion: ${mergeComparisonCount} comparaisons - [${mergeSort(mergeSortedNumbers)}]`);
 
   console.log('\n====================================');
-  console.log(numbers);
+  console.log('END');
   console.log('====================================');
   
 } catch (error) {
