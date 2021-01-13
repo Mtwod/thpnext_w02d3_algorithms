@@ -13,6 +13,7 @@ const hasOnlyNumbers = (array) => {
 };
 
 const westView = (numbers) => {
+  let comparisonCount = 0;
   let numbersToCheck = [...numbers];
   let hasView = 0;
   let currentIsMax;
@@ -22,6 +23,7 @@ const westView = (numbers) => {
     currentIsMax = true;
     currentValue = numbersToCheck[i];
     for (let j = i + 1; j < numbersToCheck.length; j++) {
+      comparisonCount++;
       if (numbersToCheck[j] >= currentValue) {
         currentIsMax = false;
         break;
@@ -30,6 +32,7 @@ const westView = (numbers) => {
     if (currentIsMax) hasView++;
   }
 
+  console.log(`Le nombre final est: ${hasView}, avec ${comparisonCount} comparaisons`);
   return hasView;
 }
 
@@ -44,7 +47,7 @@ try {
   console.log(numbers);
   console.log('====================================\n');
 
-  console.log(`Le nombre final est: ${westView(numbers)}`);
+  westView(numbers);
 
   console.log('\n====================================');
   console.log('END');

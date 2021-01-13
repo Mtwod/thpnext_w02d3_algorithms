@@ -15,15 +15,28 @@ const hasOnlyNumbers = (array) => {
 const westView = (numbers) => {
   let comparisonCount = 0;
   let numbersToCheck = [...numbers];
-  let buildingsWithView = [];
+  let hasView = 0;
+  let currentIsMax;
+  let currentValue;
   
-  for (let i = numbersToCheck.length - 1; i >= 0; i--) {
-    comparisonCount++;
-    if (numbersToCheck[i] > buildingsWithView[buildingsWithView.length - 1] || buildingsWithView.length === 0) buildingsWithView.push(numbersToCheck[i]);
+  for (let i = 0; i < numbersToCheck.length; i++) {
+    currentIsMax = true;
+    currentValue = numbersToCheck[i];
+
+    let j = i + 1;
+    while (currentIsMax && j < numbersToCheck.length) {
+      comparisonCount++;
+      if (numbersToCheck[j] >= currentValue) {
+        currentIsMax = false;
+        i = j - 1;
+      }
+      j++;
+    }
+    if (currentIsMax) hasView++;
   }
 
-  console.log(`Le nombre final est: ${buildingsWithView.length}, avec ${comparisonCount} comparaisons`);
-  return buildingsWithView.length;
+  console.log(`Le nombre final est: ${hasView}, avec ${comparisonCount} comparaisons`);
+  return hasView;
 }
 
 // Méthode synchrone
