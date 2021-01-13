@@ -14,11 +14,13 @@ const hasOnlyNumbers = (array) => {
 
 var comparisonCount = 0;
 
-const sumPair = (numbers, k) => {
+const sumPair = (numbers, total) => {
   comparisonCount = 0;
   for (let i = 0; i < numbers.length; i++) {
     comparisonCount++;
-    if (numbers.includes(k - numbers[i])) return true;
+    let rest = total - numbers[i];
+    let remainingArray = [...numbers.slice(0, i), ...numbers.slice(i + 1, numbers.length)];
+    if (remainingArray.includes(rest)) return true;
   }
   
   return false;
@@ -27,15 +29,17 @@ const sumPair = (numbers, k) => {
 var isTherePair = false;
 var pairs = [];
 
-const sumPairWithPairs = (numbers, k) => {
+const sumPairWithPairs = (numbers, total) => {
   comparisonCount = 0;
   isTherePair = false;
   pairs = [];
   for (let i = 0; i < numbers.length; i++) {
     comparisonCount++;
-    if (numbers.includes(k - numbers[i])) {
+    let rest = total - numbers[i];
+    let remainingArray = [...numbers.slice(0, i), ...numbers.slice(i + 1, numbers.length)];
+    if (remainingArray.includes(rest)) {
       isTherePair = true;
-      pairs.push([numbers[i], k-numbers[i]]);
+      pairs.push([numbers[i], rest]);
     }
   }
   
