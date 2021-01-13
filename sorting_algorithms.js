@@ -54,10 +54,11 @@ const insertionSort = (numbers) => {
   for (let i = 1; i < sortedNumbers.length; i++) {
     const valueToCompare = sortedNumbers[i];
     j = i;
+    comparisonCount++;
     while (j > 0 && sortedNumbers[j - 1] > valueToCompare) {
-      comparisonCount++;
       sortedNumbers[j] = sortedNumbers[j - 1];
       j--;
+      comparisonCount++;
     }
     sortedNumbers[j] = valueToCompare;
   }
@@ -136,38 +137,47 @@ class QuickSort {
 /*****************************
  * MERGE SORT
  * ***************************/
-var mergeComparisonCount = 0;
+class MergeSort {
 
-const mergeSort = (numbers) => {
-  if (numbers.length <= 1) return numbers;
-
-  const middle = Math.floor(numbers.length / 2);
-
-  const left = numbers.slice(0, middle);
-  const right = numbers.slice(middle);
-
-  return merge(mergeSort(left), mergeSort(right));
-}
-
-const merge = (left, right) => {
-  let resultArray = [];
-  let leftIndex = 0;
-  let rightIndex = 0;
-
-  while (leftIndex < left.length && rightIndex < right.length) {
-    mergeComparisonCount ++;
-    if (left[leftIndex] < right[rightIndex]) {
-      resultArray.push(left[leftIndex]);
-      leftIndex ++;
-    } else {
-      resultArray.push(right[rightIndex]);
-      rightIndex++;
-    }
+  constructor(array) {
+    this.array = [...array];
+    this.comparisonCount = 0;
   }
 
-  return resultArray.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
-}
+  merge(firstHalf, secondHalf) {
+    this.comparisonCount++;
+    if (firstHalf.length === 0) return secondHalf;
 
+    this.comparisonCount++;
+    if (secondHalf.length === 0) return firstHalf;
+
+    this.comparisonCount++;
+    if (firstHalf[0] < secondHalf[0]) {
+      const remaining = firstHalf.slice(1);
+      return [firstHalf[0], ...this.merge(remaining, secondHalf)];
+    }
+    
+    const remaining = secondHalf.slice(1);
+    return [secondHalf[0], ...this.merge(firstHalf, remaining)];
+  }
+  
+  mergeSort(array) {
+    if (array.length <= 1) return array;
+    const middleIndex = Math.floor(array.length / 2);
+    const firstHalfNumbers = array.slice(0, middleIndex);
+    const secondHalfNumbers = array.slice(middleIndex);
+    return this.merge(this.mergeSort(firstHalfNumbers), this.mergeSort(secondHalfNumbers));
+  }
+
+  display() {
+    console.log(`Tri fusion: ${this.comparisonCount} comparaisons - [${this.array}] \n`);
+  }
+
+  perform() {
+    if (this.comparisonCount === 0) this.array = this.mergeSort(this.array);
+    this.display();
+  }
+};
 
 // Méthode asynchrone
 // fs.readFile(fileName, 'utf8', (error, data) => {
@@ -200,9 +210,8 @@ try {
   selectionSort(numbers);
   const quickSortedNumbers = new QuickSort(numbers);
   quickSortedNumbers.perform();
-  const mergeSortedNumbers = [...numbers];
-  mergeSort(mergeSortedNumbers);
-  console.log(`Tri fusion: ${mergeComparisonCount} comparaisons - [${mergeSort(mergeSortedNumbers)}]`);
+  const mergeSortedNumbers = new MergeSort(numbers);
+  mergeSortedNumbers.perform();
 
   console.log('\n====================================');
   console.log('END');
