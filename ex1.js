@@ -12,9 +12,13 @@ const hasOnlyNumbers = (array) => {
   return true; 
 };
 
+var comparisonCount = 0;
+
 const sumPair = (numbers, k) => {
+  comparisonCount = 0;
   for (let i = 0; i < numbers.length; i++) {
     for (let j = i + 1; j < numbers.length; j++) {
+      comparisonCount++;
       if (numbers[i] + numbers[j] === k) return true;
     }
   }
@@ -32,8 +36,8 @@ try {
   console.log(numbers);
   console.log('====================================\n');
 
-  console.log(sumPair(numbers, 17));
-  console.log(sumPair(numbers, 19));
+  console.log(`The answer is ${sumPair(numbers, 17)}, with ${comparisonCount} comparisons`);
+  console.log(`The answer is ${sumPair(numbers, 19)}, with ${comparisonCount} comparisons`);
 
   console.log('\n====================================');
   console.log('END');
