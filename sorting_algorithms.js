@@ -144,21 +144,19 @@ class MergeSort {
     this.comparisonCount = 0;
   }
 
-  merge(firstHalf, secondHalf) {
-    this.comparisonCount++;
-    if (firstHalf.length === 0) return secondHalf;
-
-    this.comparisonCount++;
-    if (secondHalf.length === 0) return firstHalf;
-
-    this.comparisonCount++;
-    if (firstHalf[0] < secondHalf[0]) {
-      const remaining = firstHalf.slice(1);
-      return [firstHalf[0], ...this.merge(remaining, secondHalf)];
+  merge(left, right) {
+    let resultArray = [], leftIndex = 0, rightIndex = 0;
+    while (leftIndex < left.length && rightIndex < right.length) {
+      this.comparisonCount ++;
+      if (left[leftIndex] < right[rightIndex]) {
+        resultArray.push(left[leftIndex]);
+        leftIndex ++;
+      } else {
+        resultArray.push(right[rightIndex]);
+        rightIndex++;
+      }
     }
-    
-    const remaining = secondHalf.slice(1);
-    return [secondHalf[0], ...this.merge(firstHalf, remaining)];
+    return resultArray.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
   }
   
   mergeSort(array) {
